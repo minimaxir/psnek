@@ -1,8 +1,8 @@
-# psnek
-
-![](psnek_hello.gif)
+![](docs/psnek.svg)
 
 A modern reimagining of the Python progress*sss* bar.
+
+![](docs/psnek_hello.gif)
 
 - Track any loop with near-zero overhead: no Python code runs per item!
 - Bars that turn amber when a loop stalls and red when it's stuck, judged against the loop's own pace.
