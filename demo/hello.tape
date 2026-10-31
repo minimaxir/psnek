@@ -14,7 +14,7 @@ Set Padding 32
 Set LineHeight 1.0
 Set LetterSpacing 0
 Set Framerate 30
-Set TypingSpeed 40ms
+Set TypingSpeed 20ms
 
 Env COLORTERM "truecolor"
 Env PSNEK_MODE "live"
@@ -34,15 +34,24 @@ Sleep 800ms
 Type "import time, psnek"
 Enter
 Sleep 800ms
-Type "items = range(120)"
+Type "numbers = list(range(1, 121))"
 Enter
 Sleep 300ms
-Type "for item in psnek.track(items):"
+Type "total = 0"
+Enter
+Sleep 300ms
+Type "for number in psnek.track(numbers):"
 Enter
 Sleep 300ms
 # The REPL indents the loop body itself.
+Type "total += number"
+Enter
+Sleep 300ms
 Type "time.sleep(0.03)"
 Enter
 Sleep 300ms
 Enter
-Sleep 5500ms
+Sleep 4800ms
+Type "print(total)"
+Enter
+Sleep 1500ms
