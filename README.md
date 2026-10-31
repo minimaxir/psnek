@@ -175,7 +175,7 @@ Some userful options include:
 
 ## Miscellaneous Notes
 
-- The terminal GIFs/videos were made using [vhs](https://github.com/charmbracelet/vhs), which apparently Opus 5.5 can use well. An additional postprocessing step was added to crop the resulting video to only salient dimensions in order to reduce file size.
+- The terminal GIFs/videos were made using [vhs](https://github.com/charmbracelet/vhs), which apparently Opus 5.5 can use well. An additional postprocessing step was added to crop the resulting video to only salient dimensions in order to reduce file size. The demo files and `vhs` tapes are available in the [demo folder](/demo).
 - A bar is considered stalled once the wait since its last progress is past the smoothed mean of its gaps plus 3 standard deviations (and at least 5 seconds), and stuck past 9 standard deviations (and at least 30 seconds). The first 3 gaps are never flagged, so a slow first step such as loading a model is fine.
 - The ETA drops its `~` only when psnek is 99% confident it is within 10% (or a second). During warm-up, irregular loops, changes in pace, and stalls, it keeps the `~`.
 - In a terminal, psnek sends a desktop notification when a bar gets stuck, fails, or a long run finishes, on terminals that support it (Ghostty, WezTerm, foot, iTerm2, and kitty). Nothing is sent inside tmux or screen.
