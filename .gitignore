@@ -1,0 +1,29 @@
+.DS_Store
+*.parquet
+*.nosync
+.env
+.venv
+*.csv
+test_notebooks/
+notebooks/output/
+.vscode/
+__pycache__/
+.ipynb_checkpoints
+dist/
+build/
+uv.lock
+benchmarks/results/
+
+# Python build artifacts
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+wheels/
+*.whl
+*.egg
+*.pyd
+
+# Test files
+test_python.py

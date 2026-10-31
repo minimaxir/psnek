@@ -1,0 +1,30 @@
+          coil  ⣀ ⡀ ⡄ ⡆ ⡇ ⡏ ⡟ ⡿ ⣿ 
+         empty  ⠙ empty        ⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀    0.0%
+         start  ⠙ start        ⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀    0.3%
+          half  ⣠ half         ⣿⣿⣿⣿⣿⣀⣀⣀⣀⣀   50.0%
+         bytes  ⠙ download     ⣿⣿⣿⡟⣀⣀⣀⣀⣀⣀   37.5%
+        status  ⠋ train        ⣿⣿⣿⣿⡄⣀⣀⣀⣀⣀   42.0%
+       unknown  ⠙ stream       ⣀⣀⢠⣿⢌⣀⡡⣀⣀⣀       1234
+       si rate  ⡆ tokens       ⣿⣿⣿⡄⣀⣀⣀⣀⣀⣀   32.0%
+     rough eta  ⣄ bursty       ⣿⣿⣿⡟⣀⣀⣀⣀⣀⣀   37.0%
+       stalled  ⠙ slow         ⣿⣿⣿⡆⣀⣀⣀⣀⣀  stalled 9s
+         stuck  ⠙ stuck        ⣿⣿⣿⡆⣀⣀⣀⣀⣀  stuck 48s
+          done  ⣿ done         ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿  100.0%  done
+        failed  x failed       ⣿⣿⣿⣿⣿⣿⡟⣀⣀⣀  failed
+   interrupted  ! cancel       ⣿⣿⣿⣀⣀⣀⣀⣀⣀⣀  interrupted
+     slow rate  ⠙ slow items   ⣿⣿⡄⣀⣀⣀⣀⣀⣀⣀   22.2%
+       minutes  ⠙ renders      ⣿⡇⣀⣀⣀⣀⣀⣀⣀⣀   15.0%
+         hours  ⠙ sims         ⣿⡏⣀⣀⣀⣀⣀⣀⣀⣀   16.7%
+  unknown done  ⣿ stream       ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿  done
+ unknown stall  ⠙ stream       ⣀⣀⢰⡿⠛⣤⠛⣀⣀  stalled 14s
+ unknown stuck  ⣠ stream       ⣀⣀⣀⢸⡟⠕⣀⠪⣀  stuck 1m01s
+  unknown fail  x stream       ⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀  failed
+unknown cancel  ! stream       ⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀  interrupted
+     overshoot  ⠙ over         ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿  100.0%
+    zero total  ⣿ nothing      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿  100.0%  done
+          huge  ⠙ huge         ⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀    0.0%
+          days  ⠙ days         ⣿⣿⣿⣿⣿⣿⡀⣀⣀⣀   61.0%
+     wide desc  ⠙ 日本語の説明 ⣿⣿⣿⡟⣀⣀⣀⣀⣀⣀   37.5%
+   long status  ⠙ train        ⣿⣿⣿⣿⡄⣀⣀⣀⣀⣀   42.0%
+        nested  ├─⣄ batch      ⣿⣿⣿⣀⣀⣀⣀⣀⣀⣀   30.0%
+   nested last  │ └─⣄ shard    ⣿⣿⣿⣿⣿⣿⡄⣀⣀⣀   62.5%

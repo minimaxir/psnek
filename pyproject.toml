@@ -1,0 +1,87 @@
+[project]
+name = "psnek"
+version = "0.1.0"
+description = "A modern reimaging of the Python progresssss bar."
+readme = "README.md"
+authors = [{ name = "Max Woolf", email = "max@minimaxir.com" }]
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = []
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Framework :: Jupyter",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: Free Threading :: 3 - Stable",
+    "Typing :: Typed",
+]
+
+[project.optional-dependencies]
+pandas = ["pandas>=2.0"]
+polars = ["polars>=1.0"]
+
+[project.scripts]
+psnek = "psnek.__main__:run"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.18",
+    "pandas>=2.0",
+    "polars>=1.0",
+    "pytest>=8.4",
+    "ruff>=0.14",
+]
+bench = [
+    "nbclient>=0.11.0",
+    "orjson>=3.13.0",
+    "tqdm>=4.67",
+]
+notebooks = [
+    "nbclient>=0.10",
+    "pandas>=2.0",
+    "polars>=1.0",
+    "pyte>=0.8.2",
+    "scikit-learn>=1.5",
+]
+
+[build-system]
+requires = ["uv_build>=0.9.9,<0.10"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "W", "I", "B", "UP", "SIM", "RUF", "PL", "PERF", "N", "S", "C4",
+    "D", "ANN", "T20", "ERA",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+    "PLR2004", "S101", "PLC0415", "S108", "S311", "T201",
+    "D100", "D101", "D102", "D103", "D107",
+]
+"benchmarks/**" = ["T201"]
+"notebooks/**" = ["T201", "PLR2004"]
+"src/psnek/__main__.py" = ["T201"]
+
+[tool.mypy]
+strict = true
+python_version = "3.11"
+files = ["src", "tests", "benchmarks", "demo"]
+untyped_calls_exclude = ["nbformat"]
+
+[[tool.mypy.overrides]]
+module = ["tqdm", "tqdm.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "src"]
+addopts = ["--doctest-modules"]
+markers = ["integration: uses real processes or the filesystem inside tmp_path"]
