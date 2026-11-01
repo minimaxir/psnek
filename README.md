@@ -4,14 +4,20 @@ A modern reimagining of the Python progress*sss* bar.
 
 ![](docs/psnek_hello.gif)
 
-- Track any loop with near-zero overhead: no Python code runs per item!
-- Bars that turn amber when a loop stalls and red when it's stuck, judged against the loop's own pace.
-- An ETA that is marked with a `~` when it can't be trusted.
-- Plain status lines in CI and for AI coding agents, instead of a mess of carriage returns.
-- One output per Jupyter Notebook cell, updated in place.
-- A panel below the bars for `print()`, logging, and live tables, including polars and pandas DataFrames.
-- Progress for threads, processes, and asyncio, with support for free-threaded Python.
-- Taller bars that span multiple rows.
+`psnek` not only supports the expected features of progress bars such as nesting and writing, but it also supports adding more metrics and logs for informative display of important data.
+
+Additionally
+
+More useful features of `psnek`:
+
+- **Semantic colorling of Bars** that turn amber when a loop stalls and red when it's stuck, dynamically judged against the loop's own pace.
+- A **statistically significant ETA** that is marked with a `~` when it can't be trusted with confidence.
+- Support for **printing pandas and polars** DataFrames (or just a list of `dicts`) directly into the panel with proper formatting to visualize how data changes as the progress bar progresses.
+- Support for **CI and AI coding agents** by automatically disabling styles and avoiding carriage returns
+- **Zero Python dependencies** so importing is fast and `psnek` is unlikely to break with future Python releases.
+- A dedicated **Jupyter Notebook** renderer which owns all text output during it, and avoids an issue present in `tqdm.notebook` that massively bloats the resulting notebook with dead widgets.
+- **Async/Multithreading** support for threads, processes, and asyncio, with support for free-threaded Python.
+- **Massive performance increases** despite all the features added above. `psnek` has 1/10th the overhead of `tqdm` and has far fewer updates and consumes much lower bandwidth when used remotely.
 
 ## Installation
 
@@ -36,7 +42,7 @@ for path in psnek.track(paths, "resize"):
     resize(path)
 ```
 
-For anything else, you can update a `Bar` manually, from any thread. Use `with` so the bar is always closed, and so an exception marks it as failed:
+For anything else, you can update a `Bar` manually, from any thread. Use `with` so the bar is always closed and so an `Exception` marks it as failed:
 
 ```py3
 options = psnek.Options(unit="B", scale="iec")
@@ -74,17 +80,15 @@ To print a line above whatever bars are live:
 psnek.write("finished shard", 3)
 ```
 
-A bar's progress can be read at any time with `bar.n`, `bar.total`, `bar.rate`, and `bar.elapsed`, and once it closes, `bar.outcome` is one of `"done"`, `"failed"`, or `"interrupted"`. A bar closed by an exception shows its cause after its state, shortened in a narrow terminal so the state and a short bar still fit: `interrupted Ctrl-C` for `KeyboardInterrupt`, `interrupted exit` for `sys.exit()`, `interrupted cancelled` for a cancelled asyncio task, `interrupted closed` for a generator closed early, and the exception's type otherwise, such as `failed ValueError`.
-
 [Jupyter Notebook with a tour of everything above](notebooks/01_tour.ipynb).
 
 ## The Snek
 
-Each cell of the bar is an 8-dot Braille character that fills in eight steps, so consecutive cells read as one winding coil: `⠀ ⡀ ⡄ ⡆ ⡇ ⡏ ⡟ ⡿ ⣿`. When the total is unknown, the snake slithers back and forth, led by a face that reflects the run's mood: it smiles (`⢌⣀⡡`) while running, stares wide-eyed (`⠛⣤⠛`) when stalled, and winces (`⠕⣀⠪`) once stuck. If progress stops for an unusually long time for that loop, the snake slows down and the bar turns amber (`stalled 12s`), then red (`stuck 48s`).
+Each cell of the bar is an 8-dot Braille character that fills in eight steps, so consecutive cells read as one winding coil: `⠀ ⡀ ⡄ ⡆ ⡇ ⡏ ⡟ ⡿ ⣿`. When the total is unknown, the snake slithers back and forth, led by a face that reflects the run's mood. If progress stops for an unusually long time for that loop, the snake slows down and the bar turns amber (`stalled 12s`), then red (`stuck 48s`).
 
 ## The Panel
 
-While a bar is live in a terminal, anything you `print()` or log is routed into a panel drawn below the bars instead of breaking them. The panel shows at most 8 lines, and older lines move above the bars, so no output is ever lost. You can also write to the panel directly:
+While a bar is live in a terminal, anything you `print()` or log is routed into a panel drawn below the bars instead of breaking them. You can also write to the panel directly:
 
 ```py3
 bar.log("processed", path)  # append a message to the panel, like logging
@@ -94,7 +98,7 @@ bar.panel(None)  # clear it
 bar.write("saved model")  # print permanently above the bars, like print()
 ```
 
-`log()` is for messages about the run: each one starts with its level (`debug`, `info`, `warn`, `error`, or `fatal`), and rises in salience with it, from a faint debug line to bold warnings and errors in the bar's own colors. `Options(log_time=True)` starts each message with the time, and `psnek.LogHandler(log_time=True)` gives records from the `logging` module the same look. Logged messages stay indented under the bars once the panel pushes them above, while `write()` prints its text as-is, flush left:
+`log()` is for messages about the run: each one starts with its level (`debug`, `info`, `warn`, `error`, or `fatal`), and rises in salience with it, from a faint debug line to bold warnings and errors in the bar's own colors. `Options(log_time=True)` starts each message with the system time. Logged messages stay indented under the bars once the panel pushes them above, while `write()` prints its text as-is, flush left:
 
 ```
   16:30:33 info  batch 10 ingested
@@ -135,11 +139,11 @@ ingest: 53.0% 53/100 0:07<~0:06 7.3it/s (recovered)
 ingest: 100.0% 100/100 0:08 done 13.9it/s
 ```
 
-psnek detects common CI and agent environment variables automatically. ([Jupyter Notebook](notebooks/04_resilience.ipynb))
+`psnek` detects common CI and agent environment variables automatically. ([Jupyter Notebook](notebooks/04_resilience.ipynb))
 
 ## Parallel and Async
 
-`pmap()` maps a function over items with progress and returns the results in input order. It uses threads by default, but you can pass any executor, such as a `ProcessPoolExecutor`, for CPU-bound work.
+`pmap()` maps a function over items with progress and returns the results in input order.
 
 ```py3
 results = psnek.pmap(fetch, urls, "fetch", workers=16)
@@ -157,48 +161,40 @@ pages = await psnek.amap(fetch_page, urls, "fetch", workers=16)
 
 Wrapping the inputs of `asyncio.gather()` in `track()` does not work as you'd expect: the bar fills up instantly, since every coroutine is created before any of them runs. ([Jupyter Notebook](notebooks/05_async.ipynb))
 
-On a free-threaded build of Python, such as `python3.14t`, CPU-bound `pmap()` on plain threads scales across cores, and `update()` stays cheap even when many threads call it at once. ([Jupyter Notebook](notebooks/06_free_threading.ipynb))
+On a free-threaded build of Python such as `python3.14t`, CPU-bound `pmap()` on plain threads scales across cores and `update()` stays cheap even when many threads call it at once. ([Jupyter Notebook](notebooks/06_free_threading.ipynb))
 
 ## Options
 
 `psnek.Options` holds the presentation settings, and can be shared by any number of bars. ([Jupyter Notebook](notebooks/07_options.ipynb))
 
-Some userful options include:
+Some useful options include:
 
 - `unit`: Label for counts and rates (default: `"it"`)
 - `scale`: `"si"` (1000) or `"iec"` (1024) number prefixes (default: `"none"`)
 - `height`: Rows the bar spans (default: 1)
-- `gradient`: Color the bar with its gradient, with your own list or tuple of `"#RRGGBB"` colors, or (False) in the terminal's text color, keeping the stalled, stuck, and failed colors (default: True)
-- `disable`: Draw nothing, while counting and text still work (default: False)
+- `gradient`: Color the bar with its gradient, with your own list or tuple of `"#RRGGBB"` colors, or (False) in the terminal's text color (default: True)
 - `stream`: Where the bar is drawn (default: `sys.stderr`)
 - `notify`: Allow desktop notifications about the bar (default: True)
 
+## AI Disclosure
+
+`psnek` was mostly made using Claude Opus 5.5 with checks and balances, both a) as an experiment into seeing how well its design sense can translate into the terminal domain and b) the idea to use Braille subcharacters as a snake for a progress bar came to me after a glass of wine and I wanted to see how well Opus 5.5 could execute it. Opus 5.5 was successful, although it required significant back and forth on the design and a substantial amount of user testing (for example, to catch visual state/layout changes that happen too quickly for agents).
+
+I have reviewed all the code and documentation copy manually in this repository and I stand by it professionally.
+
 ## Miscellaneous Notes
 
-- The terminal GIFs/videos were made using [vhs](https://github.com/charmbracelet/vhs), which apparently Opus 5.5 can use well. An additional postprocessing step was added to crop the resulting video to only salient dimensions in order to reduce file size. The demo files and `vhs` tapes are available in the [demo folder](/demo).
+- The terminal GIFs/videos were made using [vhs](https://github.com/charmbracelet/vhs), which apparently Opus 5.5 can use well. An additional postprocessing step was added to crop the resulting video to only salient dimensions in order to cut down on unnecessary space and reduce file size. The demo files and `vhs` tapes are available in the [demo folder](/demo).
+- The default gradient colors were chosen to fit two specific criteria: a) sufficient color contrast for both dark and light terminal themes and b) colorblind friendliness against other semantic bar colors. The palette is similar to [viridis](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html) sans the yellows which don't play well with light backgrounds.
 - A bar is considered stalled once the wait since its last progress is past the smoothed mean of its gaps plus 3 standard deviations (and at least 5 seconds), and stuck past 9 standard deviations (and at least 30 seconds). The first 3 gaps are never flagged, so a slow first step such as loading a model is fine.
 - The ETA drops its `~` only when psnek is 99% confident it is within 10% (or a second). During warm-up, irregular loops, changes in pace, and stalls, it keeps the `~`.
 - In a terminal, psnek sends a desktop notification when a bar gets stuck, fails, or a long run finishes, on terminals that support it (Ghostty, WezTerm, foot, iTerm2, and kitty). Nothing is sent inside tmux or screen.
 - All text psnek draws is sanitized, so captured output can't move the cursor or spoof the display.
 
-## Development
+## To Be Added
 
-```sh
-uv sync --group dev
-uv run pytest
-uv run mypy
-uv run ruff check && uv run ruff format --check
-```
-
-To rerun the notebooks:
-
-```sh
-uv sync --group notebooks
-uv pip install ipykernel
-uv run jupyter execute --inplace notebooks/0[1-57]_*.ipynb
-```
-
-The `06_free_threading` notebook needs a kernel running a free-threaded build of Python, set up as its first cell describes.
+- CLI support for non-Python pipes (implemented but not tested)
+- Canonical `psnek` callbacks for all major Python machine learning frameworks (e.g. Hugging Face transformers, Keras)
 
 ## Maintainer/Creator
 
