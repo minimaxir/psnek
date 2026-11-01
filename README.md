@@ -4,15 +4,19 @@ A modern reimagining of the Python progress*sss* bar.
 
 ![](docs/psnek_hello.gif)
 
-`psnek` not only supports the expected features of progress bars such as nesting and writing, but it also supports adding more metrics and logs for informative display of important data.
+`psnek` not only supports the expected features of progress bars such as nesting and writing, but it also supports adding more metrics and logs to easily see how important data changes as the progress bar...progresses.
 
-Additionally
+https://github.com/user-attachments/assets/17cd51ae-500d-49f1-9262-4344681ee415
+
+Additionally, the bars are extremely customizable, from changing the gradient color, to changing whether text is printed above or below the progress bar, to changing the _height_ of the progress bar to fit even more metrics!
+
+https://github.com/user-attachments/assets/7a6f5fe0-6476-48a9-973b-915eb7791b30
 
 More useful features of `psnek`:
 
 - **Semantic colorling of Bars** that turn amber when a loop stalls and red when it's stuck, dynamically judged against the loop's own pace.
 - A **statistically significant completion ETA** that is marked with a `~` when it can't be trusted with confidence.
-- Support for **printing pandas and polars** DataFrames (or just a list of `dicts`) directly into the panel with proper formatting to visualize how data changes as the progress bar progresses.
+- Support for **printing pandas and polars** DataFrames (or just a list of `dicts`) directly into the panel with proper formatting. (fun tip: try sorting a DataFrame before writing to see the top results!)
 - **System notification support** (OSC 777) for terminal emulators that support it (e.g. Ghostty, kitty) to alert the user to completion and stalls. These will only fire for long-running tasks to prevent annoyances.
 - Support for **CI and AI coding agents** by automatically disabling styles and avoiding carriage returns.
 - **Zero Python dependencies** so importing is fast and `psnek` is unlikely to break with future Python releases.
