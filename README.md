@@ -14,15 +14,17 @@ https://github.com/user-attachments/assets/7a6f5fe0-6476-48a9-973b-915eb7791b30
 
 More useful features of `psnek`:
 
-- **Semantic colorling of Bars** that turn amber when a loop stalls and red when it's stuck, dynamically judged against the loop's own pace.
+- **Semantic colorling of Bars** that turn amber when a loop stalls and red when it's stuck, adjusting dynamically to the current pace of the progress bar.
 - A **statistically significant completion ETA** that is marked with a `~` when it can't be trusted with confidence.
-- Support for **printing pandas and polars** DataFrames (or just a list of `dicts`) directly into the panel with proper formatting. (fun tip: try sorting a DataFrame before writing to see the top results!)
+- Support for **printing pandas and polars DataFrames** (or just a list of `dicts`) directly into the panel with proper formatting. (fun tip: try sorting a DataFrame before writing to see the top results!)
 - **System notification support** (OSC 777) for terminal emulators that support it (e.g. Ghostty, kitty) to alert the user to completion and stalls. These will only fire for long-running tasks to prevent annoyances.
 - Support for **CI and AI coding agents** by automatically disabling styles and avoiding carriage returns.
 - **Zero Python dependencies** so importing is fast and `psnek` is unlikely to break with future Python releases.
-- A dedicated **Jupyter Notebook** renderer which owns all text output during it, and avoids an issue present in `tqdm.notebook` that massively bloats the resulting notebook with dead widgets.
-- **Async/Multithreading** support for threads, processes, and asyncio. Additionally, there is support for free-threaded Python.
+- A dedicated **Jupyter Notebook renderer** which owns all text output during it and works nicely when rendered in GitHub's Notebook viewer. It also avoids an issue present in `tqdm.notebook` that massively bloats the resulting notebook with dead widgets.
+- **Async/Multithreading** support for threads, processes, and asyncio. Relatedly, there is also support for free-threaded Python.
 - **Strong performance** despite all the features added above: `psnek` has 1/10th the overhead of `tqdm` and ties/beats `tqdm` in most other comparisons. ([Benchmarks](benchmarks/tqdm_comparison.md))
+
+The [notebooks folder](/notebooks) contains many detailed and interactive Jupyter Notebook examples which show how `psnek` works!
 
 ## Installation
 
@@ -179,7 +181,6 @@ On a free-threaded build of Python such as `python3.14t`, CPU-bound `pmap()` on 
 Some useful options include:
 
 - `unit`: Label for counts and rates (default: `"it"`)
-- `scale`: `"si"` (1000) or `"iec"` (1024) number prefixes (default: `"none"`)
 - `height`: Rows the bar spans (default: 1)
 - `gradient`: Color the bar with its gradient, with your own list or tuple of `"#RRGGBB"` colors, or (False) in the terminal's text color (default: True)
 - `stream`: Where the bar is drawn (default: `sys.stderr`)
@@ -187,9 +188,9 @@ Some useful options include:
 
 ## AI Disclosure
 
-`psnek` was mostly made using Claude Opus 5.5 with checks and balances, both a) as an experiment into seeing how well its design sense can translate into the terminal domain and b) the idea to use Braille subcharacters as a snake for a progress bar came to me after a glass of wine and I wanted to see how well Opus 5.5 could execute it. Opus 5.5 was successful, although it required significant back and forth on the design and a substantial amount of user testing (for example, to catch visual state/layout changes that happen too quickly for agents).
+`psnek` was mostly made using Claude Opus 5.5 with checks and balances, both a) as an experiment into seeing how well its design sense can translate into the terminal domain and b) the idea to use Braille subcharacters as a snake for a progress bar came to me after a glass of wine and I wanted to see how well Opus 5.5 could execute it. Opus 5.5 was successful, although it required significant back and forth on the design and a substantial amount of user testing (for example, to catch unexpected visual layout/reflow changes that happen too quickly for agents to automatically catch).
 
-I have reviewed all the code and documentation copy manually in this repository and I stand by it professionally.
+I have reviewed all the code and documentation copy manually in this repository and I stand by it professionally. For any pull requests that are submitted to this repo (particularly by agents), please manually review the output and ensure any changes are high signal and precisely scoped: low-effort PRs that cause more problems than they solve may be closed without comment.
 
 ## Miscellaneous Notes
 
