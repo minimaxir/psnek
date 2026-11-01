@@ -5,7 +5,6 @@ Output demo/psnek_tall.gif
 
 # Pure black background and near-white text for maximum contrast.
 Set Theme "Tomorrow Night Bright"
-# Ghostty's default font and spacing, so the demo looks like a real terminal.
 Set FontFamily "JetBrains Mono"
 Set FontSize 16
 Set Width 1200

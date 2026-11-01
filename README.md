@@ -21,8 +21,8 @@ More useful features of `psnek`:
 - Support for **CI and AI coding agents** by automatically disabling styles and avoiding carriage returns.
 - **Zero Python dependencies** so importing is fast and `psnek` is unlikely to break with future Python releases.
 - A dedicated **Jupyter Notebook** renderer which owns all text output during it, and avoids an issue present in `tqdm.notebook` that massively bloats the resulting notebook with dead widgets.
-- **Async/Multithreading** support for threads, processes, and asyncio, with support for free-threaded Python.
-- **Massive performance increases** despite all the features added above: `psnek` has 1/10th the overhead of `tqdm` and has far fewer updates and consumes much lower bandwidth when used remotely. ([Benchmarks](benchmarks/tqdm_comparison.md))
+- **Async/Multithreading** support for threads, processes, and asyncio. Additionally, there is support for free-threaded Python.
+- **Strong performance** despite all the features added above: `psnek` has 1/10th the overhead of `tqdm` and ties/beats `tqdm` in most other comparisons. ([Benchmarks](benchmarks/tqdm_comparison.md))
 
 ## Installation
 
@@ -43,8 +43,12 @@ Wrap any iterable with `track()` and optionally give it a description.
 ```py3
 import psnek
 
-for path in psnek.track(paths, "resize"):
-    resize(path)
+total = 0
+items = range(1, 121)
+for item in psnek.track(items):
+    total += item
+
+print(total)
 ```
 
 For anything else, you can update a `Bar` manually, from any thread. Use `with` so the bar is always closed and so an `Exception` marks it as failed:
@@ -114,7 +118,7 @@ checkpoint saved: ingest-015.parquet
 ⡇                retrying in 1s
 ```
 
-`panel()` also lays out structured data as a borderless table: a dict, dataclass, or named tuple becomes bold keys beside their values, while a list of them (or a polars or pandas `DataFrame`) becomes rows under a bold header. Only the rows that fit are formatted, so it's cheap to call every step.
+`panel()` also lays out structured data as a borderless table: a dict, dataclass, or named tuple becomes bold keys beside their values, while a list of them (or a polars or pandas `DataFrame`) becomes rows under a bold header.
 
 ```py3
 bar.panel({"loss": 0.13761, "learning_rate": 3e-4, "epoch": 3})
@@ -193,7 +197,6 @@ I have reviewed all the code and documentation copy manually in this repository 
 - The default gradient colors were chosen to fit two specific criteria: a) sufficient color contrast for both dark and light terminal themes and b) colorblind friendliness against other semantic bar colors. The palette is similar to [viridis](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html) sans the yellows which don't play well with light backgrounds.
 - A bar is considered stalled once the wait since its last progress is past the smoothed mean of its gaps plus 3 standard deviations (and at least 5 seconds), and stuck past 9 standard deviations (and at least 30 seconds). The first 3 gaps are never flagged, so a slow first step such as loading a model is fine.
 - The ETA drops its `~` only when psnek is 99% confident it is within 10% (or a second). During warm-up, irregular loops, changes in pace, and stalls, it keeps the `~`.
-- In a terminal, psnek sends a desktop notification when a bar gets stuck, fails, or a long run finishes, on terminals that support it (Ghostty, WezTerm, foot, iTerm2, and kitty). Nothing is sent inside tmux or screen.
 - All text psnek draws is sanitized, so captured output can't move the cursor or spoof the display.
 
 ## To Be Added

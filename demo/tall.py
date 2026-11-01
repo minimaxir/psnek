@@ -24,12 +24,6 @@ QUERY_SETS = (
 )
 
 stage = psnek.Options(height=2, leave=True, log_time=True)
-# A traffic-light ramp sets the rollout apart from its stages: red while the new
-# index is not live, yellow midway, and the stages' green once it is swapped in.
-# It knowingly gives up the default palette's guarantees: yellow is under 3:1
-# contrast on light backgrounds, red and green look alike to red-green colorblind
-# viewers, and the red start resembles a failed bar, so the bar's text (``done``,
-# ``failed``) stays the authority on its state.
 rollout = replace(stage, leave=None, gradient=("#E5534B", "#E3B341", "#1B976F"))
 
 with psnek.Bar(total=4, desc="refresh support search", options=rollout) as refresh:
