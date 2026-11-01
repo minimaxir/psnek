@@ -11,13 +11,14 @@ Additionally
 More useful features of `psnek`:
 
 - **Semantic colorling of Bars** that turn amber when a loop stalls and red when it's stuck, dynamically judged against the loop's own pace.
-- A **statistically significant ETA** that is marked with a `~` when it can't be trusted with confidence.
+- A **statistically significant completion ETA** that is marked with a `~` when it can't be trusted with confidence.
 - Support for **printing pandas and polars** DataFrames (or just a list of `dicts`) directly into the panel with proper formatting to visualize how data changes as the progress bar progresses.
-- Support for **CI and AI coding agents** by automatically disabling styles and avoiding carriage returns
+- **System notification support** (OSC 777) for terminal emulators that support it (e.g. Ghostty, kitty) to alert the user to completion and stalls. These will only fire for long-running tasks to prevent annoyances.
+- Support for **CI and AI coding agents** by automatically disabling styles and avoiding carriage returns.
 - **Zero Python dependencies** so importing is fast and `psnek` is unlikely to break with future Python releases.
 - A dedicated **Jupyter Notebook** renderer which owns all text output during it, and avoids an issue present in `tqdm.notebook` that massively bloats the resulting notebook with dead widgets.
 - **Async/Multithreading** support for threads, processes, and asyncio, with support for free-threaded Python.
-- **Massive performance increases** despite all the features added above. `psnek` has 1/10th the overhead of `tqdm` and has far fewer updates and consumes much lower bandwidth when used remotely.
+- **Massive performance increases** despite all the features added above: `psnek` has 1/10th the overhead of `tqdm` and has far fewer updates and consumes much lower bandwidth when used remotely.
 
 ## Installation
 
@@ -130,7 +131,7 @@ bar.panel([{"model": "llama", "acc": 0.912}, {"model": "gpt2", "acc": 0.6, "note
 
 ## CI and AI Agents
 
-Without a terminal (CI, pipes, and AI coding agents such as Claude Code or Codex), psnek prints plain, newline-terminated status lines with no escape codes: a start line, one every 10 seconds, one whenever a bar stalls, gets stuck, or recovers, and a final summary.
+Without a terminal (CI, pipes, and AI coding agents such as Claude Code or Codex), `psnek` prints plain, newline-terminated status lines with no escape codes: a start line, one every 10 seconds, one whenever a bar stalls, gets stuck, or recovers, and a final summary.
 
 ```
 ingest: 0.0% 0/100 0:00<--:-- --it/s
@@ -159,7 +160,7 @@ pages = await psnek.gather(*(fetch_page(url) for url in urls), desc="fetch")
 pages = await psnek.amap(fetch_page, urls, "fetch", workers=16)
 ```
 
-Wrapping the inputs of `asyncio.gather()` in `track()` does not work as you'd expect: the bar fills up instantly, since every coroutine is created before any of them runs. ([Jupyter Notebook](notebooks/05_async.ipynb))
+[Jupyter Notebook](notebooks/05_async.ipynb)
 
 On a free-threaded build of Python such as `python3.14t`, CPU-bound `pmap()` on plain threads scales across cores and `update()` stays cheap even when many threads call it at once. ([Jupyter Notebook](notebooks/06_free_threading.ipynb))
 
