@@ -17,12 +17,12 @@ More useful features of `psnek`:
 - **Semantic colorling of Bars** that turn amber when a loop stalls and red when it's stuck, adjusting dynamically to the current pace of the progress bar.
 - A **statistically significant completion ETA** that is marked with a `~` when it can't be trusted with confidence.
 - Support for **printing pandas and polars DataFrames** (or just a list of `dicts`) directly into the panel with proper formatting. (fun tip: try sorting a DataFrame before writing to see the top results!)
-- **System notification support** (OSC 777) for terminal emulators that support it (e.g. Ghostty, kitty) to alert the user to completion and stalls. These will only fire for long-running tasks to prevent annoyances.
+- **System notification support** (OSC 9/99/777) for terminal emulators that support it (e.g. Ghostty, kitty) to alert the user to completion and stalls. These will only fire for long-running tasks to prevent annoyances.
 - Support for **CI and AI coding agents** by automatically disabling styles and avoiding carriage returns.
 - **Zero Python dependencies** so importing is fast and `psnek` is unlikely to break with future Python releases.
 - A dedicated **Jupyter Notebook renderer** which owns all text output during it and works nicely when rendered in GitHub's Notebook viewer. It also avoids an issue present in `tqdm.notebook` that massively bloats the resulting notebook with dead widgets.
 - **Async/Multithreading** support for threads, processes, and asyncio. Relatedly, there is also support for free-threaded Python.
-- **Strong performance** despite all the features added above: `psnek` has 1/10th the overhead of `tqdm` and ties/beats `tqdm` in most other comparisons. ([Benchmarks](benchmarks/tqdm_comparison.md))
+- **Strong performance** despite all the features added above: `psnek` has less than 1/10th the overhead of `tqdm` and ties/beats `tqdm` in most other comparisons. ([Benchmarks](benchmarks/tqdm_comparison.md))
 
 The [notebooks folder](/notebooks) contains many detailed and interactive Jupyter Notebook examples which show how `psnek` works!
 
