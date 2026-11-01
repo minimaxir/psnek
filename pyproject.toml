@@ -5,6 +5,7 @@ description = "A modern reimaging of the Python progresssss bar."
 readme = "README.md"
 authors = [{ name = "Max Woolf", email = "max@minimaxir.com" }]
 license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.11"
 dependencies = []
 classifiers = [
