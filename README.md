@@ -22,7 +22,7 @@ More useful features of `psnek`:
 - **Zero Python dependencies** so importing is fast and `psnek` is unlikely to break with future Python releases.
 - A dedicated **Jupyter Notebook** renderer which owns all text output during it, and avoids an issue present in `tqdm.notebook` that massively bloats the resulting notebook with dead widgets.
 - **Async/Multithreading** support for threads, processes, and asyncio, with support for free-threaded Python.
-- **Massive performance increases** despite all the features added above: `psnek` has 1/10th the overhead of `tqdm` and has far fewer updates and consumes much lower bandwidth when used remotely.
+- **Massive performance increases** despite all the features added above: `psnek` has 1/10th the overhead of `tqdm` and has far fewer updates and consumes much lower bandwidth when used remotely. ([Benchmarks](benchmarks/tqdm_comparison.md))
 
 ## Installation
 
