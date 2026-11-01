@@ -44,9 +44,9 @@ Wrap any iterable with `track()` and optionally give it a description.
 import psnek
 
 total = 0
-items = range(1, 121)
-for item in psnek.track(items):
-    total += item
+numbers = range(1, 121)
+for number in psnek.track(numbers):
+    total += number
 
 print(total)
 ```
